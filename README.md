@@ -8,7 +8,7 @@
 
 We select 10 sets of data from the dataset here:
 
-<img src="/vis_data/1.gif" width="500px"> <img src="/vis_data/2.gif" width="500px">
+<img src="/vis_data/1.gif" width="600px"> <img src="/vis_data/2.gif" width="600px">
 
 <img src="/vis_data/3.gif" width="400px"> <img src="/vis_data/4.gif" width="400px">
 

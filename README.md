@@ -7,8 +7,8 @@ For pose estimation of nasal endoscope, the first dataset, which consists of vid
 ## Visualization of Our Data
 The visualization of our data includes:
 
-- The endoscopic video obtained with nasal endoscope.
-- The corresponding trajectory of the endoscope obtained with the optical tracking system.
+- The endoscopic video obtained with a nasal endoscope.
+- The corresponding trajectory of the endoscope obtained with a optical tracking system.
 
 We select 10 sets of data from the dataset here:
 

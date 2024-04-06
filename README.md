@@ -1,9 +1,11 @@
 # NEPose: An Endoscopic Video Dataset and a Deep Learning-based Method for Nasal Endoscopy Pose Estimation
+For pose estimation of nasal endoscope, the first dataset, which consists of videos from real objects and corresponding pose of endoscope in each frame, is proposed. Meanwhile, a deep learning-based model, including feature extractors and a novel pose decoder, is also proposed to estimated the pose of the endoscope from the monocular endoscopic images.
+
 - The visualizations of some data in the dataset are available here!
 - The whole code will be public when the work is accepted.
 
 ## Visualization of Our Data
-The visualization of our data consists of:
+The visualization of our data includes:
 
 - The endoscopic video obtained with nasal endoscope.
 - The corresponding trajectory of the endoscope obtained with the optical tracking system.

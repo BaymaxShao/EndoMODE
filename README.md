@@ -4,7 +4,7 @@ For pose estimation of nasal endoscope, the first dataset, which consists of vid
 - The visualizations of some data in the dataset are available here!
 - The whole code will be public when the work is accepted.
 
-## Visualization of Our Data
+## Visualization of Our Dataset
 The visualization of our data includes:
 
 - The endoscopic video obtained with a nasal endoscope.

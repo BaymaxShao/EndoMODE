@@ -5,8 +5,8 @@ The first dataset for pose estimation of nasal endoscope, which consists of endo
 - The whole code and dataset will be public when the work is accepted.
 
 The Project currently contains:
-- [The Exhibition of Our Dataset](## Visualization of Our Dataset)
-- [The Exhibition of the Results](## Visualization of Our Estimated Trajectories)
+- [The Exhibition of Our Dataset](#Visualization of Our Dataset)
+- [The Exhibition of the Results](#Visualization of Our Estimated Trajectories)
 
 ## Visualization of Our Dataset
 The visualization of our data includes:

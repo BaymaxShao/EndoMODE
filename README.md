@@ -2,7 +2,7 @@
 The first dataset for pose estimation of nasal endoscope, which consists of endoscopic videos from real objects and corresponding pose of endoscope in each frame, is proposed. Meanwhile, a deep learning-based model, including feature extractors and a novel pose decoder, is also proposed to estimated the pose of the endoscope from the monocular endoscopic images.
 
 - The visualizations of some data in the dataset are available here!
-- The whole code and dataset will be public when the work is accepted.
+- The whole code and dataset will be public when the paper is published.
 
 The Project currently contains:
 - [The Exhibition of Our Dataset](#visualization-of-our-dataset)

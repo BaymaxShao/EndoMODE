@@ -29,6 +29,6 @@ We select 10 sets of data from the dataset to show here:
 ## Visualization of Our Estimated Trajectories
 
 
-<img src="/vis_data/res1.gif" width="800px">
+<img src="/vis_data/res1.gif" width="700px"><img src="/vis_data/legend.png" width="100px">
 
-<img src="/vis_data/res2.gif" width="800px">
+<img src="/vis_data/res2.gif" width="700px"><img src="/vis_data/legend.png" width="100px">

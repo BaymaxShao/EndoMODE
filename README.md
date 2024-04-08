@@ -33,3 +33,7 @@ We utilize the absolute pose of each frame from the video to generate the trajec
 <img src="/vis_data/res2.gif" width="700px"><img src="/vis_data/legend.png" width="100px">
 
 <img src="/vis_data/res3.gif" width="700px"><img src="/vis_data/legend.png" width="100px">
+
+<img src="/vis_data/res4.gif" width="700px"><img src="/vis_data/legend.png" width="100px">
+
+<img src="/vis_data/res5.gif" width="700px"><img src="/vis_data/legend.png" width="100px">

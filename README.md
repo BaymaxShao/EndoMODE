@@ -5,7 +5,7 @@ In this project, :star: the first dataset for pose estimation of nasal endoscope
 
 - :heavy_check_mark: [The Exhibition of Our Dataset](#visualization-of-our-dataset) is available here!
 - :heavy_check_mark: [The Exhibition of the Results](#visualization-of-our-estimated-trajectories) is available here!
-- :black_square_button: The whole code and dataset will be public when the paper :page_with_curl: is published.
+- :black_square_button: The access to the dataset could be inquired by contacting **chenxinrong@fudan.edu.cn**
 
 ## Visualization of Our Dataset
 The visualization of our data includes:

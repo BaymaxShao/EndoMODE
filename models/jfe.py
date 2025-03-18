@@ -235,3 +235,9 @@ class JFE(nn.Module):
     def forward(self, x):
         x = self.forward_features(x)
         return x
+
+def jfe34(pretrained=False, **kwargs):
+    model = JFE(
+        depths=[3, 3, 9, 3],
+        dims=[96, 192, 384, 576],
+        **kwargs)

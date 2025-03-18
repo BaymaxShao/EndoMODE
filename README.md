@@ -1,6 +1,6 @@
 # EndoMODE
 
-## Visualization of Our Dataset
+## Visualization of Our NEPose Dataset
 The visualization of our data includes:
 
 - The endoscopic video obtained with a nasal endoscope: :triangular_flag_on_post: `/data/{Obj}/Frames`.

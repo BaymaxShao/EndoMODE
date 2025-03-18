@@ -236,8 +236,114 @@ class JFE(nn.Module):
         x = self.forward_features(x)
         return x
 
+class MambaOut(nn.Module):
+    def __init__(self, in_chans=3, num_classes=1000,
+                 depths=[3, 3, 9, 3],
+                 dims=[96, 192, 384, 576],
+                 downsample_layers=DOWNSAMPLE_LAYERS_FOUR_STAGES,
+                 norm_layer=partial(nn.LayerNorm, eps=1e-6),
+                 act_layer=nn.GELU,
+                 conv_ratio=1.0,
+                 kernel_size=7,
+                 drop_path_rate=0.,
+                 output_norm=partial(nn.LayerNorm, eps=1e-6),
+                 head_fn=MlpHead,
+                 head_dropout=0.0,
+                 **kwargs,
+                 ):
+        super().__init__()
+        self.num_classes = num_classes
+
+        if not isinstance(depths, (list, tuple)):
+            depths = [depths] # it means the model has only one stage
+        if not isinstance(dims, (list, tuple)):
+            dims = [dims]
+
+        num_stage = len(depths)
+        self.num_stage = 2
+
+        if not isinstance(downsample_layers, (list, tuple)):
+            downsample_layers = [downsample_layers] * num_stage
+        down_dims = [in_chans] + dims
+        self.downsample_layers = nn.ModuleList(
+            [downsample_layers[i](down_dims[i], down_dims[i+1]) for i in range(num_stage)]
+        )
+
+        dp_rates=[x.item() for x in torch.linspace(0, drop_path_rate, sum(depths))]
+
+        self.stages = nn.ModuleList()
+        cur = 0
+        for i in range(num_stage):
+            stage = nn.Sequential(
+                *[GatedCNNBlock(dim=dims[i],
+                norm_layer=norm_layer,
+                act_layer=act_layer,
+                kernel_size=kernel_size,
+                conv_ratio=conv_ratio,
+                drop_path=dp_rates[cur + j],
+                ) for j in range(depths[i])]
+            )
+            self.stages.append(stage)
+            cur += depths[i]
+
+        self.norm = output_norm(dims[-1])
+
+        if head_dropout > 0.0:
+            self.head = head_fn(dims[-1], num_classes, head_dropout=head_dropout)
+        else:
+            self.head = head_fn(dims[-1], num_classes)
+
+        self.apply(self._init_weights)
+
+    def _init_weights(self, m):
+        if isinstance(m, (nn.Conv2d, nn.Linear)):
+            trunc_normal_(m.weight, std=.02)
+            if m.bias is not None:
+                nn.init.constant_(m.bias, 0)
+
+    @torch.jit.ignore
+    def no_weight_decay(self):
+        return {'norm'}
+
+    def forward_features(self, x):
+        for i in range(self.num_stage):
+            x = self.downsample_layers[i](x)
+            x = self.stages[i](x)
+        return rearrange(x, 'b h w c -> b c h w')
+        # return self.norm(x.mean([1, 2])) # (B, H, W, C) -> (B, C)
+
+    def forward(self, x):
+        x = self.forward_features(x)
+        # x = self.head(x)
+        return x
+
 def jfe34(pretrained=False, **kwargs):
     model = JFE(
         depths=[3, 3, 9, 3],
         dims=[96, 192, 384, 576],
         **kwargs)
+
+default_cfgs = {
+    'mambaout_femto': _cfg(
+        url='https://github.com/yuweihao/MambaOut/releases/download/model/mambaout_femto.pth'),
+    'mambaout_kobe': _cfg(
+        url='https://github.com/yuweihao/MambaOut/releases/download/model/mambaout_kobe.pth'),
+    'mambaout_tiny': _cfg(
+        url='https://github.com/yuweihao/MambaOut/releases/download/model/mambaout_tiny.pth'),
+    'mambaout_small': _cfg(
+        url='https://github.com/yuweihao/MambaOut/releases/download/model/mambaout_small.pth'),
+    'mambaout_base': _cfg(
+        url='https://github.com/yuweihao/MambaOut/releases/download/model/mambaout_base.pth'),
+}
+
+def mambaout_tiny(pretrained=False, **kwargs):
+    model = MambaOut(
+        depths=[3, 3, 9, 3],
+        dims=[96, 192, 384, 576],
+        **kwargs)
+    model.default_cfg = default_cfgs['mambaout_tiny']
+    if pretrained:
+        state_dict = torch.hub.load_state_dict_from_url(
+            url= model.default_cfg['url'], map_location="cpu", check_hash=True)
+        model.load_state_dict(state_dict)
+    return model

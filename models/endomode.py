@@ -7,7 +7,7 @@ This is the Pytorch Implementation of our model.
 import torch
 import torch.nn as nn
 import torchvision.models as tvmodels
-from .jfe import jfe34
+from .feature_extractors import jfe34, mambaout_tiny
 
 
 class EndoMODE(nn.Module):
@@ -15,8 +15,13 @@ class EndoMODE(nn.Module):
         super(NEPose, self).__init__()
         self.feature_channels = 192
         self.out_dim = out_dim
-        self.dep_features = dfe(pretrained=True)
+        
+        self.dep_features = mambaout_tiny(pretrained=True)
         self.joint_features = jfe34()
+
+        self.mlp1 = nn.Conv2d(self.feature_channels * 2, self.feature_channels,1)
+        self.mlp2 = nn.Conv2d(self.feature_channels * 2, self.feature_channels, 1)
+        
         self.squeeze = nn.Conv2d(704, 384, 1)
         self.relu = nn.ReLU(inplace=False)
         self.decoder = PoseDecoder()
@@ -26,10 +31,12 @@ class EndoMODE(nn.Module):
         f1 = self.dep_features(img1)
         f2 = self.dep_features(img2)
         fo = self.dep_features(flow)
+        f12 = f1 * self.relu(self.mlp1(torch.cat([f1, f2], dim=1)))
+        f21 = f2 * self.relu(self.mlp2(torch.cat([f1, f2], dim=1)))
 
         # Joint Feature
         f3 = self.joint_features(img3)
-        feat = torch.cat((f1, f2, f3, fo), dim=1)
+        feat = torch.cat((f1, f2, f3, fo, f12, f21), dim=1)
 
         out = self.relu(self.squeeze(feat))
 

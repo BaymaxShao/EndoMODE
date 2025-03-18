@@ -1,5 +1,7 @@
 # EndoMODE
 
+The code is released continuously...
+
 ## Visualization of Our Estimated Trajectories
 We utilize the absolute pose of each frame from the video to generate the trajectory of the endoscope, which canbe used as qualitative evaluation of methods.
 

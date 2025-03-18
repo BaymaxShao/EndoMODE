@@ -7,9 +7,7 @@ This is the Pytorch Implementation of our model.
 import torch
 import torch.nn as nn
 import torchvision.models as tvmodels
-
-# The code for Joint Feature Extractor: Coming Soon...
-from .JFE import jfe34, jfe18
+from .jfe import jfe34
 
 
 class EndoMODE(nn.Module):
